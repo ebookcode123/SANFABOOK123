@@ -1,0 +1,243 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="3-翻转链表题解">3. 翻转链表题解</h1><pre data-initialized="true" data-gclp-id="228"><code> ___       _   _____
+                (  _`\  _ ( )_(_   _)_                         _
+                | (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+                |  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+                | (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+                (____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                ( )_) |
+                \___/'
+            </code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：4
+            </li>
+                <li>难度：2-3
+                </li>
+                <li>关键词：recursion, iteration, pointer, list
+                </li></ul>
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="203443"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="5" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                <span class="active">1x</span>
+                <span>1.5x</span>
+                <span>2x</span>
+            </div><div class="endscreen text-center">
+
+
+                <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                    <a href="/premiumMembership">
+                        <div class="text-center">
+                            <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                        </div>
+
+                        <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: hidden; animation-duration: 1s; animation-delay: 0.2s; animation-name: none;">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <div style="display:inline-block; width:50px; height:50px;">
+                                    <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                </div>
+                                <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-microphone"></span>
+                                <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-discussion"></span>
+                                <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <a class="fp-toggle">Play video again</a>
+            </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+
+                <h2 id="iteration">Iteration</h2><p>从第一个节点开始，一个一个翻转</p><pre data-initialized="true" data-gclp-id="229"><code class="lang-java">
+                <span class="hljs-keyword">import</span> java.io.*;
+                <span class="hljs-keyword">import</span> java.util.*;
+
+
+                <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+                <span class="hljs-keyword">int</span> value;
+                Node next;
+                Node(){
+                next = <span class="hljs-keyword">null</span>;
+                }
+                }
+
+                <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Iteration</span></span>{
+                <span class="hljs-function"><span class="hljs-keyword">public</span> Node <span class="hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+                Node pre = <span class="hljs-keyword">null</span>;
+                Node current = head;
+                Node next = <span class="hljs-keyword">null</span>;
+
+                <span class="hljs-keyword">while</span>( current != <span class="hljs-keyword">null</span> ){
+                next =current.next;
+                current.next = pre;
+                pre = current;
+                current = next;
+                }
+
+                <span class="hljs-keyword">return</span> pre;
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">(Node head)</span></span>{
+                <span class="hljs-keyword">while</span>(head!=<span class="hljs-keyword">null</span>){
+                System.out.print(head.value+<span class="hljs-string">" "</span>);
+                head = head.next;
+                }
+                System.out.println();
+                }
+
+                }
+
+                <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+                Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                <span class="hljs-keyword">int</span> n = in.nextInt();
+                <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+                Node head = <span class="hljs-keyword">null</span>;
+                Node pre = <span class="hljs-keyword">null</span>;
+                <span class="hljs-keyword">while</span>(n--!=<span class="hljs-number">0</span>){
+                Node temp = <span class="hljs-keyword">new</span> Node();
+                temp.value = in.nextInt();
+
+                <span class="hljs-keyword">if</span>( head == <span class="hljs-keyword">null</span>) head = temp;
+                <span class="hljs-keyword">else</span> pre.next = temp;
+                pre = temp;
+                }
+
+                Iteration itr = <span class="hljs-keyword">new</span> Iteration();
+                itr.display(head);
+
+                head = itr.reverse(head);
+                itr.display(head);
+
+                n = in.nextInt();
+                }
+
+                in.close();
+                }
+                }
+            </code></pre>
+                <h2 id="recursion">Recursion</h2><p>将翻转转换成子问题：</p><ul><li>翻转该节点之后的所有节点
+            </li>
+                <li>将该节点拼接到翻转后的节点上
+                </li></ul>
+<pre data-initialized="true" data-gclp-id="230"><code class="lang-java">
+    <span class="hljs-keyword">import</span> java.io.*;
+    <span class="hljs-keyword">import</span> java.util.*;
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    <span class="hljs-keyword">int</span> value;
+    Node next;
+    Node(){
+    next = <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>{
+    Node head = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">while</span>(head!=<span class="hljs-keyword">null</span>){
+    System.out.print(head.value+<span class="hljs-string">" "</span>);
+    head = head.next;
+    }
+    System.out.println();
+    }
+    }
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Recursion</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node <span class="hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+    <span class="hljs-keyword">if</span>(head == <span class="hljs-keyword">null</span> || head.next==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> head;
+
+    Node newHead = reverse(head.next);
+    head.next.next = head;
+    head.next = <span class="hljs-keyword">null</span>;
+
+    <span class="hljs-keyword">return</span> newHead;
+    }
+    }
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Iteration</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node <span class="hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+    Node pre = <span class="hljs-keyword">null</span>;
+    Node current = head;
+    Node next = <span class="hljs-keyword">null</span>;
+
+    <span class="hljs-keyword">while</span>( current != <span class="hljs-keyword">null</span> ){
+    next =current.next;
+    current.next = pre;
+    pre = current;
+    current = next;
+    }
+
+    <span class="hljs-keyword">return</span> pre;
+    }
+
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+    Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+    <span class="hljs-keyword">int</span> n = in.nextInt();
+    <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+    Node head = <span class="hljs-keyword">null</span>;
+    Node pre = <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">while</span>(n--!=<span class="hljs-number">0</span>){
+    Node temp = <span class="hljs-keyword">new</span> Node();
+    temp.value = in.nextInt();
+
+    <span class="hljs-keyword">if</span>( head == <span class="hljs-keyword">null</span>) head = temp;
+    <span class="hljs-keyword">else</span> pre.next = temp;
+    pre = temp;
+    }
+
+    <span class="hljs-comment">//            Iteration itr = new Iteration();</span>
+    head.display();
+
+    Recursion rec = <span class="hljs-keyword">new</span> Recursion();
+
+    head = rec.reverse(head);
+    head.display();
+
+    n = in.nextInt();
+    }
+
+    in.close();
+    }
+    }
+</code></pre>
+                <h2 id="扩展思考">扩展思考</h2><p>Corner case</p><ul><li>n==0
+            </li></ul>
+                <p>Followup question</p><ul><li>反转有向图
+            </li></ul>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

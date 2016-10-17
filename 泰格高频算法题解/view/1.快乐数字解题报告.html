@@ -1,0 +1,258 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="1-快乐数字题解">1. 快乐数字题解</h1><pre data-initialized="true" data-gclp-id="224"><code> ___       _   _____
+                (  _`\  _ ( )_(_   _)_                         _
+                | (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+                |  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+                | (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+                (____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                ( )_) |
+                \___/'
+            </code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：4
+            </li>
+                <li>难度：2-3
+                </li>
+                <li>关键词：recursion, dynamic programming, time complexity
+                </li></ul>
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="203444"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="4" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                <span class="active">1x</span>
+                <span>1.5x</span>
+                <span>2x</span>
+            </div><div class="endscreen text-center">
+
+
+                <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                    <a href="/premiumMembership">
+                        <div class="text-center">
+                            <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                        </div>
+
+                        <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: hidden; animation-duration: 1s; animation-delay: 0.2s; animation-name: none;">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <div style="display:inline-block; width:50px; height:50px;">
+                                    <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                </div>
+                                <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-microphone"></span>
+                                <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-discussion"></span>
+                                <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <a class="fp-toggle">Play video again</a>
+            </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+
+                <h2 id="iteration">Iteration</h2><p>不断的进行happy运算，直到出现1或者出现环。</p><pre data-initialized="true" data-gclp-id="225"><code class="lang-java">
+                <span class="hljs-keyword">import</span> java.io.*;
+                <span class="hljs-keyword">import</span> java.util.*;
+
+                <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Happiness</span></span>{
+                <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isHappy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>{
+                HashSet&lt;Integer&gt; cache = <span class="hljs-keyword">new</span> HashSet&lt;Integer&gt;();
+
+                <span class="hljs-keyword">while</span>( cache.add(n) ) n = transform(n);
+
+                <span class="hljs-keyword">return</span> n==<span class="hljs-number">1</span>? <span class="hljs-keyword">true</span>:<span class="hljs-keyword">false</span>;
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">transform</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>{
+                <span class="hljs-keyword">int</span> result = <span class="hljs-number">0</span>;
+                <span class="hljs-keyword">while</span>(n!=<span class="hljs-number">0</span>){
+                result += (n%<span class="hljs-number">10</span>)*(n%<span class="hljs-number">10</span>);
+                n=n/<span class="hljs-number">10</span>;
+                }
+                <span class="hljs-keyword">return</span> result;
+                }
+                }
+
+                <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+                Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                <span class="hljs-keyword">int</span> n = in.nextInt();
+                Happiness happiness = <span class="hljs-keyword">new</span> Happiness();
+                <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+                System.out.println(happiness.isHappy(n));
+                n = in.nextInt();
+                }
+
+                in.close();
+                }
+                }
+            </code></pre>
+                <p>常见BUG</p><ul><li>使用<code>(n%10)^2</code>来计算平方
+            </li>
+                <li>没有定义变量n
+                </li>
+                <li>使用重复的cache
+                </li></ul>
+                <h2 id="time-complexity">Time complexity</h2><p>输入一个n，我们并不知道需要计算多久。但是我们可以考虑一个happy变换会得到什么？</p><p>假设输入的是最大的正整数，有10位。经过happy变换，能够得到的最大的数是 10*9^2=810。
+                换句话说，所有的正整数经过变换，都会小于810。因此我们计算的复杂度一定在 O(810)，于是为O(1)</p><h2 id="recursion">Recursion</h2><p>我们每次得到一个n，都要重新计算，能否复用之前的结果呢？把计算过的n都保存了。</p><p>能否进一步加速呢？我们每次运算的中间结果也是有价值的，因此也保存下来。</p><pre data-initialized="true" data-gclp-id="226"><code class="lang-java">
+                <span class="hljs-keyword">import</span> java.io.*;
+                <span class="hljs-keyword">import</span> java.util.*;
+
+                <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Happiness</span></span>{
+
+                HashMap&lt;Integer, Boolean&gt; cache;
+
+                Happiness(){
+                cache = <span class="hljs-keyword">new</span> HashMap&lt;Integer, Boolean&gt;();
+                cache.put(<span class="hljs-number">1</span>,<span class="hljs-keyword">true</span>);
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isHappy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> depth)</span></span>{
+                <span class="hljs-keyword">if</span>( cache.containsKey(n) ){
+                System.out.println(depth);
+                <span class="hljs-keyword">return</span> cache.get(n);
+                }
+                cache.put(n,<span class="hljs-keyword">false</span>);
+
+                <span class="hljs-keyword">boolean</span> result = isHappy(transform(n),depth+<span class="hljs-number">1</span>);
+                cache.replace(n, result);
+                <span class="hljs-keyword">return</span> result;
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">transform</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>{
+                <span class="hljs-keyword">int</span> result = <span class="hljs-number">0</span>;
+                <span class="hljs-keyword">while</span>(n!=<span class="hljs-number">0</span>){
+                result += (n%<span class="hljs-number">10</span>)*(n%<span class="hljs-number">10</span>);
+                n=n/<span class="hljs-number">10</span>;
+                }
+                <span class="hljs-keyword">return</span> result;
+                }
+                }
+
+                <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+                Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                <span class="hljs-keyword">int</span> n = in.nextInt();
+                Happiness happiness = <span class="hljs-keyword">new</span> Happiness();
+                <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+                System.out.println(happiness.isHappy(n, <span class="hljs-number">1</span>));
+                n = in.nextInt();
+                }
+
+                in.close();
+                }
+                }
+            </code></pre>
+                <p>常见BUG</p><ul><li>cache忘记赋值
+            </li>
+                <li>cache首先设定为false，当找到最终结果时，需要在整个返回的路径上重新赋值（主要是处理true的情况）
+                </li></ul>
+                <h2 id="如何节省空间">如何节省空间</h2><p>实际上，上述的cache算法有个潜在的风险，如果正整数判断多了，会占用大量的cache空间。
+                但是基于以上的算法复杂度分析，我们只需要保存810以内的结果即可。
+                但是对于每个输入的数，首先进行一次变换，让它进入810的范围呢。</p><pre data-initialized="true" data-gclp-id="227"><code class="lang-java">
+                <span class="hljs-keyword">import</span> java.io.*;
+                <span class="hljs-keyword">import</span> java.util.*;
+
+                <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Happiness</span></span>{
+
+                HashMap&lt;Integer, Boolean&gt; cache;
+
+                Happiness(){
+                cache = <span class="hljs-keyword">new</span> HashMap&lt;Integer, Boolean&gt;();
+                cache.put(<span class="hljs-number">1</span>,<span class="hljs-keyword">true</span>);
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isHappy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> depth)</span></span>{
+                <span class="hljs-keyword">if</span>( cache.containsKey(n) ){
+                System.out.println(depth);
+                <span class="hljs-keyword">return</span> cache.get(n);
+                }
+                cache.put(n,<span class="hljs-keyword">false</span>);
+
+                <span class="hljs-keyword">boolean</span> result = isHappy(transform(n),depth+<span class="hljs-number">1</span>);
+                cache.replace(n, result);
+                <span class="hljs-keyword">return</span> result;
+                }
+
+                <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">transform</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>{
+                <span class="hljs-keyword">int</span> result = <span class="hljs-number">0</span>;
+                <span class="hljs-keyword">while</span>(n!=<span class="hljs-number">0</span>){
+                result += (n%<span class="hljs-number">10</span>)*(n%<span class="hljs-number">10</span>);
+                n=n/<span class="hljs-number">10</span>;
+                }
+                <span class="hljs-keyword">return</span> result;
+                }
+                }
+
+                <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+                Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                Happiness happiness = <span class="hljs-keyword">new</span> Happiness();
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;=<span class="hljs-number">810</span>;++i){
+                happiness.isHappy(i,<span class="hljs-number">1</span>);
+                }
+
+                <span class="hljs-keyword">int</span> n = in.nextInt();
+                <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+                System.out.println(happiness.isHappy( happiness.transform(n), <span class="hljs-number">1</span>));
+                n = in.nextInt();
+                }
+
+                in.close();
+                }
+                }
+            </code></pre>
+                <p>常见BUG</p><ul><li>cache忘记初始化
+            </li>
+                <li>cache赋错初始值
+                </li>
+                <li>输入n后，忘记先进行一次transform
+                </li></ul>
+                <h2 id="扩展思考">扩展思考</h2><p>Corner cases</p><ul><li>如果n能够无限大呢？可以首先做几次happy变换，进入一个范围再进行cache
+            </li>
+                <li>如何处理小数的情况
+                </li></ul>
+                <p>总结</p><ul><li><p>不要只是背答案</p><ul><li>背答案没法应对现场的bug
+            </li>
+                <li>背答案没法答出解题的思路
+                </li>
+                <li>背答案回答不出following questions
+                </li></ul>
+            </li>
+                <li><p>一定要可视化</p></li>
+                <li>一定要live coding
+                </li></ul>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

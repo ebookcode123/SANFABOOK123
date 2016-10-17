@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="ebookPageMainHtmlTag" ng-app="myAPP">
+<html class="ebookPageMainHtmlTag" ng-app="Template">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,30 +14,30 @@
 
     <script src="angular.js"></script>
     <script src="controler.js"></script>
-
-    <!--<script async="" src="./cssjs_files/ga.js"></script>-->
+    <script src="angular-route.min.js"></script>
 </head>
 
-<body id="page-top" class="index modal-open" style="padding-right: 15px;" ng-controller="navRepeat">
+<body id="page-top" class="index modal-open" style="padding-right: 15px;"  >
 
-<div class="ebookMainContainer">
+<div class="ebookMainContainer" ng-controller="navRepeat">
     <div class="book with-summary font-size-2 font-family-1">
-        <div class="book-summary">
+        <div class="book-summary" >
             <div id="book-search-input" role="search">
                 <input type="text" placeholder="Type to search">
             </div>
-            <nav role="navigation">
+            <nav role="navigation" >
                 <ul class="summary">
                     <li class="divider"></li>
                     <li class="header">Summary</li>
                     <li class="chapter" ng-repeat = "varb in navOB">
-                        <a href= {{varb.name+".html"}}>{{varb.name}}</a>
+                        <a href= {{"#/"+varb.name}}>{{varb.name}}</a>
+
                         <ul class="articles" ng-repeat="data in varb.JSON">
                             <li class="chapter">
-                                <a href= {{data+".html"}}>{{data}}</a>
+                                <a href= {{"#/"+data}}>{{data}}</a>
                                 <ul class="articles" ng-if="data =='学习计划'" ng-repeat="data2 in varb.JSON2">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -48,7 +48,7 @@
 
                                 <ul class="articles" ng-if="data =='生长学习法'" ng-repeat="data2 in varb.JSON3">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -59,7 +59,7 @@
 
                                 <ul class="articles" ng-if="data =='Linear'" ng-repeat="data2 in varb.JSON2">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -70,7 +70,7 @@
 
                                 <ul class="articles" ng-if="data =='Tree'" ng-repeat="data2 in varb.JSON3">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -81,7 +81,7 @@
 
                                 <ul class="articles" ng-if="data =='Graph'" ng-repeat="data2 in varb.JSON4">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -92,7 +92,7 @@
 
                                 <ul class="articles" ng-if="data =='Search'" ng-repeat="data2 in varb.JSON2">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -103,7 +103,7 @@
 
                                 <ul class="articles" ng-if="data =='System Design'" ng-repeat="data2 in varb.JSON3">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -114,7 +114,7 @@
 
                                 <ul class="articles" ng-if="data =='Math'" ng-repeat="data2 in varb.JSON4">
                                     <li class="chapter" >
-                                        <a href={{data2+".html"}}>
+                                        <a href={{"#/"+data2}}>
                                             {{data2}}
                                         </a>
                                         <ul class="articles">
@@ -140,7 +140,7 @@
         </div>
 
         <div class="book-body">
-            <div class="body-inner">
+            <div class="body-inner" >
                 <div class="book-header" role="navigation">
                     <a id="sidePanelToggleBtn" class="btn pull-left js-toolbar-action" aria-label="" href="#">
                         <i class="fa fa-align-justify"></i>
@@ -150,84 +150,8 @@
                         <a href="."></a>
                     </h1>
                 </div>
-                <div class="page-wrapper" tabindex="-1" role="main">
-                    <div class="page-inner">
-                        <div id="book-search-results">
-                            <div class="search-noresults">
-                                <section class="normal markdown-section">
-                                    <h1 id="公开课第二节（树形结构）">公开课第二节（树形结构）</h1><h2 id="课程回顾">课程回顾</h2><div class="gb-video" data-videoid="210143"><div class="flowplayer" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false">
-                                    <div class="buttons">
-                                        <span class="active">1x</span>
-                                        <span>1.5x</span>
-                                        <span>2x</span>
-                                    </div>
-                                    <div class="endscreen text-center">
+                <div class="page-wrapper" tabindex="-1" role="main" ng-view>
 
-
-                                        <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
-                                            <a href="/premiumMembership">
-                                                <div class="text-center">
-                                                    <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
-                                                </div>
-
-                                                <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
-                                                    <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
-                                                        <div style="display:inline-block; width:50px; height:50px;">
-                                                            <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
-                                                        </div>
-                                                        <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
-                                                        <span class="purple-microphone"></span>
-                                                        <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
-                                                        <span class="purple-discussion"></span>
-                                                        <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-
-                                        <a class="fp-toggle">Play video again</a>
-                                    </div>
-                                </div></div>
-
-
-
-                                    <p>1 Tree</p><ul><li>公共祖先：<a href="Problem_63.html">题目</a>、<a href="Solution_63.html">解题报告</a>
-                                </li></ul>
-                                    <p>2 Traverse</p><ul><li>树的三种遍历：<a href="Problem_64.html">题目</a>、<a href="Solution_64.html">解题报告</a>
-                                </li>
-                                    <li>树的三种遍历II：<a href="Problem_67.html">题目</a>、<a href="Solution_67.html">解题报告</a>
-                                    </li></ul>
-                                    <p>3 Quick sort/select</p><ul><li>寻找k：<a href="Problem_65.html">题目</a>、<a href="Solution_65.html">解题报告</a>
-                                </li></ul>
-                                    <p>4 Heap</p><ul><li>验证heap：<a href="Problem_66.html">题目</a>、<a href="Solution_66.html">解题报告</a>
-                                </li></ul>
-
-                                </section>
-                            </div>
-                            <div class="search-results">
-                                <div class="has-results">
-                                    <h1 class="search-results-title">
-                                        <span class="search-results-count"></span>
-                                        results matching "<span class="search-query"></span>"
-                                    </h1>
-                                    <ul class="search-results-list">
-
-                                    </ul>
-                                </div>
-                                <div class="no-results">
-                                    <h1 class="search-results-title">
-                                        No results matching "<span class="search-query"></span>"
-                                    </h1>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
 
