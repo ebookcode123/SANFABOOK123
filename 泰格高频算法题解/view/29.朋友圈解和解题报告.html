@@ -1,0 +1,96 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="29-朋友圈题解">29. 朋友圈题解</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：2
+                </li>
+                <li>关键词：graph, DFS
+                </li></ul>
+                <h2 id="dfs">DFS</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.util.*;
+<span class="hljs-keyword">import</span> java.io.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    LinkedList&lt;Node&gt; neighbors;
+    <span class="hljs-keyword">boolean</span> visited;
+    Node(){
+        visited = <span class="hljs-keyword">false</span>;
+        neighbors = <span class="hljs-keyword">new</span> LinkedList&lt;Node&gt;();
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Travel</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(Node node)</span></span>{
+        <span class="hljs-keyword">if</span>(node.visited) <span class="hljs-keyword">return</span>;
+        node.visited = <span class="hljs-keyword">true</span>;
+        node.neighbors.forEach( (neighbor) -&gt; DFS(neighbor) );
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException </span>{
+
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        Travel travel = <span class="hljs-keyword">new</span> Travel();
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            Node[] graph = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) graph[i] = <span class="hljs-keyword">new</span> Node();
+            <span class="hljs-keyword">int</span> m = in.nextInt();
+
+            <span class="hljs-keyword">while</span>(m--!=<span class="hljs-number">0</span>){
+                <span class="hljs-keyword">int</span> first = in.nextInt();
+                <span class="hljs-keyword">int</span> second = in.nextInt();
+                graph[first].neighbors.add(graph[second]);
+                graph[second].neighbors.add(graph[first]);
+            }
+
+            <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; ++i){
+                <span class="hljs-keyword">if</span>(graph[i].visited == <span class="hljs-keyword">false</span>){
+                    ++count;
+                    travel.DFS(graph[i]);
+                }
+            }
+
+            System.out.println(count);
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

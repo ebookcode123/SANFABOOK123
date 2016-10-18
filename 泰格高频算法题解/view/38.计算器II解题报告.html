@@ -1,0 +1,296 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="38-计算器ii解题报告">38. 计算器II解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：1
+            </li>
+                <li>难度：4
+                </li>
+                <li>关键词：stack, grammar
+                </li></ul>
+                <div class="gb-video" data-videoid="207649"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="2" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                    <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                    <span class="active">1x</span>
+                    <span>1.5x</span>
+                    <span>2x</span>
+                </div><div class="endscreen text-center">
+
+
+                    <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                        <a href="/premiumMembership">
+                            <div class="text-center">
+                                <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                            </div>
+
+                            <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: hidden; animation-duration: 1s; animation-delay: 0.2s; animation-name: none;">
+                                <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                    <div style="display:inline-block; width:50px; height:50px;">
+                                        <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                    </div>
+                                    <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                    <span class="purple-microphone"></span>
+                                    <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                    <span class="purple-discussion"></span>
+                                    <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <a class="fp-toggle">Play video again</a>
+                </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+                <h2 id="正面计算">正面计算</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calculator</span></span>{
+
+    HashMap&lt;Character, Integer&gt; prioriy;
+
+    Calculator(){
+        prioriy = <span class="hljs-keyword">new</span> HashMap&lt;Character, Integer&gt;();
+        prioriy.put(<span class="hljs-string">'+'</span>,<span class="hljs-number">1</span>);
+        prioriy.put(<span class="hljs-string">'-'</span>,<span class="hljs-number">1</span>);
+        prioriy.put(<span class="hljs-string">'*'</span>,<span class="hljs-number">2</span>);
+        prioriy.put(<span class="hljs-string">'/'</span>,<span class="hljs-number">2</span>);
+        prioriy.put(<span class="hljs-string">'^'</span>,<span class="hljs-number">3</span>);
+        prioriy.put(<span class="hljs-string">'('</span>,<span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">eval</span><span class="hljs-params">(String equation)</span></span>{
+        <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;
+        Stack&lt;Integer&gt; nums = <span class="hljs-keyword">new</span> Stack&lt;Integer&gt;();
+        Stack&lt;Character&gt; ops = <span class="hljs-keyword">new</span> Stack&lt;Character&gt;();
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;equation.length();++i){
+            <span class="hljs-keyword">char</span> next = equation.charAt(i);
+            <span class="hljs-keyword">switch</span> (next){
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'('</span>:
+                    ops.add(next);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">')'</span>:
+                    <span class="hljs-keyword">while</span>(ops.peek()!= <span class="hljs-string">'('</span>){
+                        nums.add( cal( nums.pop(), nums.pop(), ops.pop()) );
+                    }
+                    ops.pop();
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'+'</span>:
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'-'</span>:
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'*'</span>:
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'/'</span>:
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'^'</span>:
+                    <span class="hljs-keyword">if</span>( ops.isEmpty() || prioriy.get(next)&gt;prioriy.get(ops.peek()) ) {
+                        ops.add(next);
+                    }<span class="hljs-keyword">else</span> {
+                        nums.add(cal(nums.pop(), nums.pop(), ops.pop()));
+                        ops.add(next);
+                    }
+                    <span class="hljs-comment">// deal with it</span>
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">default</span>: <span class="hljs-comment">// deal with number</span>
+                    num = num*<span class="hljs-number">10</span>+(<span class="hljs-keyword">int</span>)(next-<span class="hljs-string">'0'</span>);
+                    <span class="hljs-keyword">if</span>( Character.isDigit(equation.charAt(i+<span class="hljs-number">1</span>))==<span class="hljs-keyword">false</span> ){
+                        nums.add(num);
+                        num = <span class="hljs-number">0</span>;
+                    }
+            }
+        }
+
+        <span class="hljs-keyword">return</span> nums.pop();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> second, <span class="hljs-keyword">int</span> first, <span class="hljs-keyword">char</span> op)</span></span>{
+        <span class="hljs-keyword">switch</span> (op){
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'+'</span>:
+                <span class="hljs-keyword">return</span> first+second;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'-'</span>:
+                <span class="hljs-keyword">return</span> first-second;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'*'</span>:
+                <span class="hljs-keyword">return</span> first*second;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'/'</span>:
+                <span class="hljs-keyword">return</span> first/second;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'^'</span>:
+                 <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>)Math.pow(first,second);
+        }
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        Calculator cal = <span class="hljs-keyword">new</span> Calculator();
+
+        String equation = in.nextLine();
+        <span class="hljs-keyword">while</span>(equation.equals(<span class="hljs-string">"END"</span>)==<span class="hljs-keyword">false</span>){
+            System.out.println( cal.eval(<span class="hljs-string">"("</span>+equation+<span class="hljs-string">")"</span>) ); <span class="hljs-comment">// safe zone</span>
+            equation = in.nextLine();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="语法解析">语法解析</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calculator</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String str)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Object() {
+            <span class="hljs-keyword">int</span> pos = -<span class="hljs-number">1</span>, ch;
+
+            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nextChar</span><span class="hljs-params">()</span> </span>{
+                ch = (++pos &lt; str.length()) ? str.charAt(pos) : -<span class="hljs-number">1</span>;
+            }
+
+            <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">eat</span><span class="hljs-params">(<span class="hljs-keyword">int</span> charToEat)</span> </span>{
+                <span class="hljs-keyword">while</span> (ch == <span class="hljs-string">' '</span>) nextChar();
+                <span class="hljs-keyword">if</span> (ch == charToEat) {
+                    nextChar();
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+                }
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+
+            <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">parse</span><span class="hljs-params">()</span> </span>{
+                nextChar();
+                <span class="hljs-keyword">double</span> x = parseExpression();
+                <span class="hljs-keyword">if</span> (pos &lt; str.length()) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Unexpected: "</span> + (<span class="hljs-keyword">char</span>) ch);
+                <span class="hljs-keyword">return</span> x;
+            }
+
+            <span class="hljs-comment">// Grammar:</span>
+            <span class="hljs-comment">// expression = term | expression `+` term | expression `-` term</span>
+            <span class="hljs-comment">// term = factor | term `*` factor | term `/` factor</span>
+            <span class="hljs-comment">// factor = `+` factor | `-` factor | `(` expression `)`</span>
+            <span class="hljs-comment">//        | number | functionName factor | factor `^` factor</span>
+
+            <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">parseExpression</span><span class="hljs-params">()</span> </span>{
+                <span class="hljs-keyword">double</span> x = parseTerm();
+                <span class="hljs-keyword">for</span> (; ; ) {
+                    <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'+'</span>)) x += parseTerm(); <span class="hljs-comment">// addition</span>
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'-'</span>)) x -= parseTerm(); <span class="hljs-comment">// subtraction</span>
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> x;
+                }
+            }
+
+            <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">parseTerm</span><span class="hljs-params">()</span> </span>{
+                <span class="hljs-keyword">double</span> x = parseFactor();
+                <span class="hljs-keyword">for</span> (; ; ) {
+                    <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'*'</span>)) x *= parseFactor(); <span class="hljs-comment">// multiplication</span>
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'/'</span>)) x /= parseFactor(); <span class="hljs-comment">// division</span>
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> x;
+                }
+            }
+
+            <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">parseFactor</span><span class="hljs-params">()</span> </span>{
+                <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'+'</span>)) <span class="hljs-keyword">return</span> parseFactor(); <span class="hljs-comment">// unary plus</span>
+                <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'-'</span>)) <span class="hljs-keyword">return</span> -parseFactor(); <span class="hljs-comment">// unary minus</span>
+
+                <span class="hljs-keyword">double</span> x;
+                <span class="hljs-keyword">int</span> startPos = <span class="hljs-keyword">this</span>.pos;
+                <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'('</span>)) { <span class="hljs-comment">// parentheses</span>
+                    x = parseExpression();
+                    eat(<span class="hljs-string">')'</span>);
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((ch &gt;= <span class="hljs-string">'0'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'9'</span>) || ch == <span class="hljs-string">'.'</span>) { <span class="hljs-comment">// numbers</span>
+                    <span class="hljs-keyword">while</span> ((ch &gt;= <span class="hljs-string">'0'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'9'</span>) || ch == <span class="hljs-string">'.'</span>) nextChar();
+                    x = Double.parseDouble(str.substring(startPos, <span class="hljs-keyword">this</span>.pos));
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ch &gt;= <span class="hljs-string">'a'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'z'</span>) { <span class="hljs-comment">// functions</span>
+                    <span class="hljs-keyword">while</span> (ch &gt;= <span class="hljs-string">'a'</span> &amp;&amp; ch &lt;= <span class="hljs-string">'z'</span>) nextChar();
+                    String func = str.substring(startPos, <span class="hljs-keyword">this</span>.pos);
+                    x = parseFactor();
+                    <span class="hljs-keyword">if</span> (func.equals(<span class="hljs-string">"sqrt"</span>)) x = Math.sqrt(x);
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (func.equals(<span class="hljs-string">"sin"</span>)) x = Math.sin(Math.toRadians(x));
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (func.equals(<span class="hljs-string">"cos"</span>)) x = Math.cos(Math.toRadians(x));
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (func.equals(<span class="hljs-string">"tan"</span>)) x = Math.tan(Math.toRadians(x));
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Unknown function: "</span> + func);
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Unexpected: "</span> + (<span class="hljs-keyword">char</span>) ch);
+                }
+
+                <span class="hljs-keyword">if</span> (eat(<span class="hljs-string">'^'</span>)) x = Math.pow(x, parseFactor()); <span class="hljs-comment">// exponentiation</span>
+
+                <span class="hljs-keyword">return</span> x;
+            }
+        }.parse();
+    }
+
+}
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-comment">//read input process</span>
+        String equation = in.nextLine();
+        <span class="hljs-keyword">while</span>(equation.equals(<span class="hljs-string">"END"</span>)==<span class="hljs-keyword">false</span>){
+
+            System.out.println(Calculator.eval( <span class="hljs-string">"("</span>+equation+<span class="hljs-string">")"</span> ));
+            equation =in.nextLine();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <p>参考文献：<a href="http://stackoverflow.com/questions/3422673/evaluating-a-math-expression-given-in-string-form" target="_blank">http://stackoverflow.com/questions/3422673/evaluating-a-math-expression-given-in-string-form</a></p><h2 id="巧妙解法">巧妙解法</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+<span class="hljs-keyword">import</span> javax.script.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        ScriptEngine cal = (<span class="hljs-keyword">new</span> ScriptEngineManager()).getEngineByName(<span class="hljs-string">"JavaScript"</span>);
+
+        String equation = in.nextLine();
+        <span class="hljs-keyword">while</span>(equation.equals(<span class="hljs-string">"END"</span>)==<span class="hljs-keyword">false</span>){
+            System.out.println( cal.eval(<span class="hljs-string">"("</span>+equation+<span class="hljs-string">")"</span>) ); <span class="hljs-comment">// safe zone</span>
+            equation = in.nextLine();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="扩展问题">扩展问题</h2>
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

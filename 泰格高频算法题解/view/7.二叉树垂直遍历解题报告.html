@@ -1,0 +1,303 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="7-二叉树垂直遍历">7. 二叉树垂直遍历</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：4
+            </li>
+                <li>难度：2-3
+                </li>
+                <li>关键词：breadth first search, sort, queue
+                </li></ul>
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="203445"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="0" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                <span class="active">1x</span>
+                <span>1.5x</span>
+                <span>2x</span>
+            </div><div class="endscreen text-center">
+
+
+                <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                    <a href="/premiumMembership">
+                        <div class="text-center">
+                            <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                        </div>
+
+                        <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: hidden; animation-duration: 1s; animation-delay: 0.2s; animation-name: none;">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <div style="display:inline-block; width:50px; height:50px;">
+                                    <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                </div>
+                                <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-microphone"></span>
+                                <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-discussion"></span>
+                                <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <a class="fp-toggle">Play video again</a>
+            </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+                <h2 id="dfs如何做？">DFS如何做？</h2><p>如何遍历呢？</p><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    <span class="hljs-keyword">int</span> value;
+    Node left;
+    Node right;
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DFS</span></span>{
+    HashMap&lt;Integer, LinkedList&gt; rank;
+
+    DFS(){
+        rank = <span class="hljs-keyword">new</span> HashMap&lt;Integer, LinkedList&gt;();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(Node ptr, <span class="hljs-keyword">int</span> pos)</span></span>{
+        <span class="hljs-keyword">if</span>(ptr==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span>( rank.containsKey(pos) == <span class="hljs-keyword">false</span> ) rank.put(pos, <span class="hljs-keyword">new</span> LinkedList());
+        rank.get(pos).add(ptr.value);
+        traverse(ptr.left,pos-<span class="hljs-number">1</span>);
+        traverse(ptr.right,pos+<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-comment">// find the min left</span>
+        <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(rank.containsKey(pos)==<span class="hljs-keyword">true</span>){
+            pos--;
+        }
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=pos+<span class="hljs-number">1</span>; rank.containsKey(i); ++i){
+            rank.get(i).forEach( (value)-&gt; System.out.print(<span class="hljs-string">" "</span>+value) );
+        }
+        System.out.println();
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-comment">//read input process</span>
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+
+            <span class="hljs-comment">//Build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i){
+                tree[i].value = in.nextInt();
+                <span class="hljs-keyword">int</span> leftID = in.nextInt();
+                <span class="hljs-keyword">if</span>(leftID!=-<span class="hljs-number">1</span>) tree[i].left = tree[leftID];
+                <span class="hljs-keyword">int</span> rightID = in.nextInt();
+                <span class="hljs-keyword">if</span>(rightID!=-<span class="hljs-number">1</span>) tree[i].right = tree[rightID];
+            }
+
+            DFS dfs = <span class="hljs-keyword">new</span> DFS();
+            dfs.traverse(tree[<span class="hljs-number">0</span>],<span class="hljs-number">0</span>);
+            dfs.display();
+
+            n =in.nextInt();
+        }
+
+        in.close();
+    }
+}
+
+</code></pre>
+                <p>这个结果正确吗？</p><h2 id="bfs如何做？">BFS如何做？</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    <span class="hljs-keyword">int</span> value;
+    Node left;
+    Node right;
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BFS</span></span>{
+    HashMap&lt;Integer, LinkedList&gt; rank;
+
+    BFS(){
+        rank = <span class="hljs-keyword">new</span> HashMap&lt;Integer, LinkedList&gt;();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(Node ptr, <span class="hljs-keyword">int</span> pos)</span></span>{
+        <span class="hljs-keyword">if</span>(ptr==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        LinkedList process = <span class="hljs-keyword">new</span> LinkedList();
+        process.add(ptr);
+        process.add(pos);
+        <span class="hljs-keyword">while</span>(process.isEmpty()==<span class="hljs-keyword">false</span>){
+            <span class="hljs-comment">//Pop</span>
+            ptr = (Node)process.pollFirst();
+            pos = (<span class="hljs-keyword">int</span>)process.pollFirst();
+
+            <span class="hljs-comment">//Process</span>
+            <span class="hljs-keyword">if</span>(rank.containsKey(pos)==<span class="hljs-keyword">false</span>) rank.put(pos, <span class="hljs-keyword">new</span> LinkedList());
+            rank.get(pos).add(ptr.value);
+
+            <span class="hljs-comment">//Push</span>
+            <span class="hljs-keyword">if</span>(ptr.left!=<span class="hljs-keyword">null</span>) {
+                process.add(ptr.left);
+                process.add(pos - <span class="hljs-number">1</span>);
+            }
+            <span class="hljs-keyword">if</span>(ptr.right!=<span class="hljs-keyword">null</span>) {
+                process.add(ptr.right);
+                process.add(pos + <span class="hljs-number">1</span>);
+            }
+        }
+
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-comment">// find the min left</span>
+        <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(rank.containsKey(pos)==<span class="hljs-keyword">true</span>){
+            pos--;
+        }
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=pos+<span class="hljs-number">1</span>; rank.containsKey(i); ++i){
+            rank.get(i).forEach( (value)-&gt; System.out.print(<span class="hljs-string">" "</span>+value) );
+        }
+        System.out.println();
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-comment">//read input process</span>
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+
+            <span class="hljs-comment">//Build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i){
+                tree[i].value = in.nextInt();
+                <span class="hljs-keyword">int</span> leftID = in.nextInt();
+                <span class="hljs-keyword">if</span>(leftID!=-<span class="hljs-number">1</span>) tree[i].left = tree[leftID];
+                <span class="hljs-keyword">int</span> rightID = in.nextInt();
+                <span class="hljs-keyword">if</span>(rightID!=-<span class="hljs-number">1</span>) tree[i].right = tree[rightID];
+            }
+
+            BFS bfs = <span class="hljs-keyword">new</span> BFS();
+            bfs.traverse(tree[<span class="hljs-number">0</span>],<span class="hljs-number">0</span>);
+            bfs.display();
+
+            n =in.nextInt();
+        }
+
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="能否更简单？">能否更简单？</h2><p>考虑到输入的数据就是BFS的结果，因此可以直接计算</p><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Node</span>&gt;</span>{
+    <span class="hljs-keyword">int</span> value;
+    <span class="hljs-keyword">int</span> id;
+    <span class="hljs-keyword">int</span> column;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Node temp)</span></span>{
+        <span class="hljs-keyword">if</span>(column == temp.column) <span class="hljs-keyword">return</span> Integer.compare(id,  temp.id);
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> Integer.compare(column, temp.column);
+    }
+}
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-comment">//read input process</span>
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+
+            <span class="hljs-comment">//Build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node();
+            tree[<span class="hljs-number">0</span>].column = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i){
+                tree[i].value = in.nextInt();
+                tree[i].id = i;
+
+                <span class="hljs-keyword">int</span> leftID = in.nextInt();
+
+                <span class="hljs-comment">//assgin column to child</span>
+                <span class="hljs-keyword">if</span>(leftID!=-<span class="hljs-number">1</span>) tree[leftID].column = tree[i].column-<span class="hljs-number">1</span>;
+                <span class="hljs-keyword">int</span> rightID = in.nextInt();
+                <span class="hljs-keyword">if</span>(rightID!=-<span class="hljs-number">1</span>) tree[rightID].column = tree[i].column+<span class="hljs-number">1</span>;
+            }
+
+            Arrays.sort(tree);
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; ++i) System.out.print(tree[i].value+<span class="hljs-string">" "</span>);
+            System.out.println();
+
+            n =in.nextInt();
+        }
+
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="扩展思考">扩展思考</h2><p>相关题目</p><ul><li>三叉树的垂直遍历
+            </li></ul>
+                <p>总结</p><ul><li>BFS和DFS的区别
+            </li>
+                <li>如何写一个能够排序的Java Class
+                </li>
+                <li>如何使用LinkedList, HashMap, Queue的数据结构
+                </li></ul>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

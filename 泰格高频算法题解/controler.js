@@ -20,7 +20,7 @@ OB.controller("navRepeat",function ($scope) {
         {   'name':"如何学习算法设计",
             'JSON':["学习计划","生长学习法"],
             'JSON2':["7天怎么学","30天怎么学","100天怎么学"],
-            'JSON3':["一个指导思想","3+1模版"]
+            'JSON3':["一个指导思想", "3plus1模版"]
         },
         {   'name':"数据结构",
             'JSON':["Linear","Tree","Graph","Big Data"],
@@ -135,6 +135,7 @@ OB.controller("navRepeat",function ($scope) {
                 "61.数组去重II解题报告",
                 "62.设计LRU Cache解题报告",
                 "63.公共祖先解题报告",
+                "64.树的三种遍历解题报告",
                 "65.寻找k解题报告",
                 "66.验证heap解题报告",
                 "67.树的三种遍历II解题报告",
@@ -188,6 +189,9 @@ OB.config(['$routeProvider', function ($routeProvider) {
             controller: 'navRepeat'
         }).when('/一个指导思想', {
             templateUrl: 'view/一个指导思想.html',
+            controller: 'navRepeat'
+        }).when('/3plus1模版', {
+            templateUrl: 'view/3+1模版.html',
             controller: 'navRepeat'
         }).when('/数据结构', {
             templateUrl: 'view/数据结构.html',
@@ -536,6 +540,7 @@ OB.config(['$routeProvider', function ($routeProvider) {
         "61.数组去重II解题报告",
         "62.设计LRU Cache解题报告",
         "63.公共祖先解题报告",
+        "64.树的三种遍历解题报告",
         "65.寻找k解题报告",
         "66.验证heap解题报告",
         "67.树的三种遍历II解题报告",
@@ -544,11 +549,12 @@ OB.config(['$routeProvider', function ($routeProvider) {
         "70.组合数解题报告"
     ];
 
+    // var S1 = $scope.navOB[7].JSON;
     for(var i in SolutionReport){
-        $routeProvider.when('/'+SolutionReport[i], {
+            $routeProvider.when('/'+SolutionReport[i], {
                 templateUrl: 'view/'+SolutionReport[i]+'.html',
                 controller: 'navRepeat'
             })
-    }
+        }
 
 }]);

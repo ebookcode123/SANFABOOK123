@@ -1,0 +1,86 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="70-组合数解题报告">70. 组合数解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：graph, DFS
+                </li></ul>
+                <h2 id="dfs">DFS</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Traveler</span></span>{
+    <span class="hljs-keyword">int</span> result;
+    Traveler(){
+        result = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">travel</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> pos, <span class="hljs-keyword">int</span> sum, LinkedList&lt;Integer&gt; trip)</span></span>{
+        <span class="hljs-keyword">if</span>(sum==<span class="hljs-number">0</span>){
+ <span class="hljs-comment">//           trip.forEach( (value)-&gt;System.out.print(value+" "));</span>
+ <span class="hljs-comment">//           System.out.println();</span>
+            ++result;
+        }
+        <span class="hljs-keyword">if</span>(pos == nums.length) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=pos;i&lt;nums.length;++i){
+            <span class="hljs-keyword">if</span>(i&gt;pos&amp;&amp;nums[i]==nums[i-<span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+            trip.add(nums[i]);
+            travel(nums, i+<span class="hljs-number">1</span>, sum+nums[i],trip);
+            trip.removeLast();
+        }
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            Traveler traveler  = <span class="hljs-keyword">new</span> Traveler();
+            <span class="hljs-keyword">int</span> m = in.nextInt();
+            <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[m];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;++i) nums[i] = in.nextInt();
+            Arrays.sort(nums);
+            LinkedList&lt;Integer&gt; trip = <span class="hljs-keyword">new</span> LinkedList&lt;Integer&gt;();
+            traveler.travel(nums,<span class="hljs-number">0</span>, -n, trip);
+            System.out.println(traveler.result);
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

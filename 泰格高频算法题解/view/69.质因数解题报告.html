@@ -1,0 +1,84 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="69-质因数解题报告">69. 质因数解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：queue, heap, dynamic programming
+                </li></ul>
+                <h2 id="queue解法">Queue解法</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Generator</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>{
+        <span class="hljs-keyword">if</span>( n==<span class="hljs-number">0</span> || n==<span class="hljs-number">1</span> ) <span class="hljs-keyword">return</span> n;
+        <span class="hljs-keyword">int</span> p2 = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> p3 = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> p5 = <span class="hljs-number">1</span>;
+
+        <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n+<span class="hljs-number">1</span>];
+        nums[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+
+        <span class="hljs-keyword">int</span> p = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span>(p&lt;n){
+            <span class="hljs-keyword">int</span> min = Math.min( nums[p2]*<span class="hljs-number">2</span>, Math.min( nums[p3]*<span class="hljs-number">3</span>, nums[p5]*<span class="hljs-number">5</span> ) );
+            <span class="hljs-keyword">if</span>(min == nums[p2]*<span class="hljs-number">2</span>) ++p2;
+            <span class="hljs-keyword">if</span>(min == nums[p3]*<span class="hljs-number">3</span>) ++p3;
+            <span class="hljs-keyword">if</span>(min == nums[p5]*<span class="hljs-number">5</span>) ++p5;
+            nums[++p]=min;
+        }
+        <span class="hljs-keyword">return</span> nums[n];
+    }
+
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt(); <span class="hljs-comment">// number of node</span>
+
+        Generator generator = <span class="hljs-keyword">new</span> Generator();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            <span class="hljs-comment">//build tree</span>
+            System.out.println(generator.cal(n));
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

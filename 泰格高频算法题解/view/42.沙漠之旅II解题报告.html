@@ -1,0 +1,127 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="42-沙漠之旅ii解题报告">42. 沙漠之旅II解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：2
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：queue, greedy, array
+                </li></ul>
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="207644"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="4" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                <span class="active">1x</span>
+                <span>1.5x</span>
+                <span>2x</span>
+            </div><div class="endscreen text-center">
+
+
+                <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                    <a href="/premiumMembership">
+                        <div class="text-center">
+                            <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                        </div>
+
+                        <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: hidden; animation-duration: 1s; animation-delay: 0.2s; animation-name: none;">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <div style="display:inline-block; width:50px; height:50px;">
+                                    <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                </div>
+                                <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-microphone"></span>
+                                <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-discussion"></span>
+                                <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <a class="fp-toggle">Play video again</a>
+            </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+                <h2 id="正面思考">正面思考</h2><p>基于<a href="Problem_41.html">沙漠之旅</a>，我们已经理解了不断的构造，直到失败的方法。</p><p>这次虽然有了油箱，但是我们之前证明的一个结论依然是成立的：如果一个queue失败了，期间的任何节点都是失败的。</p><p>但是我们之前的另一个结论不成立了：如果总油量小于等于总距离，一定有解。因此我们需要循环更多以确定解是否存在。</p><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt(); <span class="hljs-comment">// number of gas station</span>
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">int</span> m = in.nextInt(); <span class="hljs-comment">// max gas volumn</span>
+
+            <span class="hljs-keyword">int</span>[] gas = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];
+            <span class="hljs-keyword">int</span>[] dis = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; ++i){
+                gas[i] = in.nextInt();
+                dis[i] = in.nextInt();
+            }
+
+            <span class="hljs-keyword">int</span> trip = <span class="hljs-number">0</span>; <span class="hljs-comment">// how long we have travelled</span>
+            <span class="hljs-keyword">int</span> tank = <span class="hljs-number">0</span>; <span class="hljs-comment">// our gas tank</span>
+            <span class="hljs-keyword">int</span> begin = <span class="hljs-number">0</span>;
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">2</span>*n;++i){
+                <span class="hljs-keyword">int</span> curr = i%n;
+                tank += gas[curr]; <span class="hljs-comment">// add gas in a station</span>
+                <span class="hljs-keyword">if</span>(tank&gt;m) tank = m;<span class="hljs-comment">// check the max</span>
+                tank -= dis[curr]; <span class="hljs-comment">// go to the next station</span>
+                <span class="hljs-keyword">if</span>(tank&lt;<span class="hljs-number">0</span>){ <span class="hljs-comment">//failed</span>
+                    begin = curr+<span class="hljs-number">1</span>;
+                    tank = <span class="hljs-number">0</span>;
+                    trip = <span class="hljs-number">0</span>;
+                }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">if</span>(++trip==n) <span class="hljs-keyword">break</span>; <span class="hljs-comment">// if I have gone through a round</span>
+                }
+            }
+
+            System.out.println(trip==n?begin:-<span class="hljs-number">1</span>);
+
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

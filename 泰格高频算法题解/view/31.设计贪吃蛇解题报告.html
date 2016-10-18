@@ -1,0 +1,163 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="31-贪吃蛇解题报告">31. 贪吃蛇解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：2
+            </li>
+                <li>难度：4
+                </li>
+                <li>关键词：system design, game, queue
+                </li></ul>
+                <h2 id="正面模拟">正面模拟</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.util.*;
+<span class="hljs-keyword">import</span> java.io.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Snake</span></span>{
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span></span>{
+        <span class="hljs-keyword">int</span> x;
+        <span class="hljs-keyword">int</span> y;
+        Point(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y){
+            <span class="hljs-keyword">this</span>.x = x;
+            <span class="hljs-keyword">this</span>.y = y;
+        }
+    }
+
+    LinkedList&lt;Point&gt; body;
+    <span class="hljs-keyword">char</span> space[][]; <span class="hljs-comment">// board</span>
+    <span class="hljs-keyword">int</span> spaceSize;
+    <span class="hljs-keyword">int</span> direction; <span class="hljs-comment">//A  0 right, 1 down, 2 left, 3 up   L (direction+3)%4 R (direction+1)%4 D: direction</span>
+    Point offset[]; <span class="hljs-comment">// 4</span>
+
+    Snake(<span class="hljs-keyword">int</span> size){
+        <span class="hljs-keyword">this</span>.spaceSize = size;
+        direction = <span class="hljs-number">0</span>; <span class="hljs-comment">//</span>
+        body = <span class="hljs-keyword">new</span> LinkedList&lt;Point&gt;();
+        body.add( <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) );
+
+        space = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[spaceSize+<span class="hljs-number">2</span>][spaceSize+<span class="hljs-number">2</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;spaceSize+<span class="hljs-number">2</span>;++i){ <span class="hljs-comment">// fill in the wall</span>
+            space[<span class="hljs-number">0</span>][i] = <span class="hljs-string">'W'</span>;
+            space[spaceSize+<span class="hljs-number">1</span>][i] = <span class="hljs-string">'W'</span>;
+            space[i][<span class="hljs-number">0</span>] = <span class="hljs-string">'W'</span>;
+            space[i][spaceSize+<span class="hljs-number">1</span>] = <span class="hljs-string">'W'</span>;
+        }
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i =<span class="hljs-number">1</span>; i&lt;=spaceSize; ++i){ <span class="hljs-comment">// fill in the middle</span>
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>;j&lt;=spaceSize;++j)
+                space[i][j]=<span class="hljs-string">'.'</span>;
+        }
+        space[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]=<span class="hljs-string">'S'</span>; <span class="hljs-comment">//snake self</span>
+
+        offset = <span class="hljs-keyword">new</span> Point[<span class="hljs-number">4</span>];
+        offset[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);
+        offset[<span class="hljs-number">1</span>] = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+        offset[<span class="hljs-number">2</span>] = <span class="hljs-keyword">new</span> Point(<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>);
+        offset[<span class="hljs-number">3</span>] = <span class="hljs-keyword">new</span> Point(-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;spaceSize+<span class="hljs-number">2</span>;++i){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;spaceSize+<span class="hljs-number">2</span>;++j){
+                System.out.print(space[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">move</span><span class="hljs-params">(<span class="hljs-keyword">char</span> order)</span></span>{
+        <span class="hljs-keyword">switch</span>(order){
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'L'</span>:
+                direction = (direction+<span class="hljs-number">3</span>)%<span class="hljs-number">4</span>;<span class="hljs-comment">//?</span>
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'R'</span>:
+                direction = (direction+<span class="hljs-number">1</span>)%<span class="hljs-number">4</span>;
+                <span class="hljs-keyword">break</span>;
+        }
+
+        Point head = body.getFirst();
+        <span class="hljs-keyword">int</span> newX = head.x + offset[direction].x; <span class="hljs-comment">// new head position</span>
+        <span class="hljs-keyword">int</span> newY = head.y + offset[direction].y;
+
+        Point tail;
+        <span class="hljs-keyword">switch</span> (space[newX][newY]){
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'W'</span>: <span class="hljs-comment">//wall?</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'o'</span>:
+                space[newX][newY] = <span class="hljs-string">'S'</span>;
+                body.addFirst(<span class="hljs-keyword">new</span> Point(newX,newY));
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'.'</span>:
+                space[newX][newY] = <span class="hljs-string">'S'</span>;
+                body.addFirst(<span class="hljs-keyword">new</span> Point(newX,newY)); <span class="hljs-comment">//add</span>
+                tail = body.removeLast(); <span class="hljs-comment">//move tail</span>
+                space[tail.x][tail.y] = <span class="hljs-string">'.'</span>;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'S'</span>: <span class="hljs-comment">// hit self</span>
+                tail = body.getLast();
+                <span class="hljs-keyword">if</span>(tail.x != newX || tail.y != newY) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+                body.addFirst(body.removeLast());
+                <span class="hljs-keyword">break</span>;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException </span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            Snake snake = <span class="hljs-keyword">new</span> Snake(n); <span class="hljs-comment">//create board</span>
+<span class="hljs-comment">//            snake.display();</span>
+            <span class="hljs-keyword">int</span> m = in.nextInt();
+            <span class="hljs-keyword">while</span>(m--!=<span class="hljs-number">0</span>) { <span class="hljs-comment">// add bean</span>
+                snake.space[in.nextInt()+<span class="hljs-number">1</span>][in.nextInt()+<span class="hljs-number">1</span>]=<span class="hljs-string">'o'</span>;
+<span class="hljs-comment">//                snake.display();</span>
+            }
+
+            in.nextLine();
+            String movement = in.nextLine();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;movement.length();++i){
+                <span class="hljs-keyword">boolean</span> state = snake.move(movement.charAt(i));
+                <span class="hljs-keyword">if</span>(state == <span class="hljs-keyword">false</span> ) <span class="hljs-keyword">break</span>;
+            }
+            System.out.println(snake.body.size());
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="能否不保存整个空间？">能否不保存整个空间？</h2><p>只需要一个map记录特殊的节点即可</p>
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -2,13 +2,13 @@
     <div id="book-search-results">
         <div class="search-noresults">
             <section class="normal markdown-section">
-                <h1 id="61-数组去重ii解题报告">61. 数组去重II解题报告</h1><h2 id="题目分析">题目分析</h2><ul><li>频率：2
+                <h1 id="64-树的三种遍历解题报告">64. 树的三种遍历解题报告</h1><h2 id="题目分析">题目分析</h2><ul><li>频率：3
             </li>
-                <li>难度：3
+                <li>难度：2
                 </li>
-                <li>关键词：array
+                <li>关键词：tree
                 </li></ul>
-                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="207640"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="6" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="215866"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="14" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
 
 
                 <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
@@ -53,44 +53,78 @@
 <span class="hljs-keyword">import</span> java.io.*;
 <span class="hljs-keyword">import</span> java.util.*;
 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    <span class="hljs-keyword">int</span> value;
+    Node left;
+    Node right;
+    Node(){
+        left = <span class="hljs-keyword">null</span>;
+        right = <span class="hljs-keyword">null</span>;
+        value = -<span class="hljs-number">1</span>;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Traverser</span></span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PreOrder</span><span class="hljs-params">(Node root)</span></span>{
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        System.out.print(root.value+<span class="hljs-string">" "</span>);
+        PreOrder(root.left);
+        PreOrder(root.right);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InOrder</span><span class="hljs-params">(Node root)</span></span>{
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        InOrder(root.left);
+        System.out.print(root.value+<span class="hljs-string">" "</span>);
+        InOrder(root.right);
+
+    }
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PostOrder</span><span class="hljs-params">(Node root)</span></span>{
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span>;
+        PostOrder(root.left);
+        PostOrder(root.right);
+        System.out.print(root.value+<span class="hljs-string">" "</span>);
+    }
+
+}
+
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
         Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
 
         <span class="hljs-keyword">int</span> n = in.nextInt();
+
+        Traverser traverser = <span class="hljs-keyword">new</span> Traverser();
         <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
-            <span class="hljs-keyword">int</span> k = in.nextInt();
 
-            <span class="hljs-comment">// read n integer</span>
-            <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) nums[i] = in.nextInt();
+            <span class="hljs-comment">//build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node();
 
-            <span class="hljs-comment">// remove the duplicate</span>
-            <span class="hljs-keyword">int</span> last = <span class="hljs-number">0</span>;
-            <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> curr=<span class="hljs-number">1</span>; curr&lt;n; ++curr){
-                <span class="hljs-keyword">if</span>( nums[curr] != nums[curr-<span class="hljs-number">1</span>] ){
-                    nums[++last] = nums[curr];
-                    count = <span class="hljs-number">1</span>;
-                }
-                <span class="hljs-keyword">else</span>{
-                    <span class="hljs-keyword">if</span>(++count&gt;k) <span class="hljs-keyword">continue</span>;
-                    <span class="hljs-keyword">else</span> nums[++last] = nums[curr];
-                }
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; ++i){
+                tree[i].value = in.nextInt();
+                <span class="hljs-keyword">int</span> leftId = in.nextInt();
+                <span class="hljs-keyword">if</span>(leftId!=-<span class="hljs-number">1</span>) tree[i].left = tree[leftId];
+                <span class="hljs-keyword">int</span> rightId = in.nextInt();
+                <span class="hljs-keyword">if</span>(rightId!=-<span class="hljs-number">1</span>) tree[i].right = tree[rightId];
             }
 
-            <span class="hljs-comment">//Output result</span>
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;=last;++i) System.out.print(nums[i]+<span class="hljs-string">" "</span>);
+            traverser.PreOrder(tree[<span class="hljs-number">0</span>]);
             System.out.println();
+            traverser.InOrder(tree[<span class="hljs-number">0</span>]);
+            System.out.println();
+            traverser.PostOrder(tree[<span class="hljs-number">0</span>]);
+            System.out.println();
+
 
             n = in.nextInt();
         }
-
         in.close();
     }
 }
 </code></pre>
-                <h2 id="扩展问题">扩展问题</h2>
+
             </section>
         </div>
         <div class="search-results">

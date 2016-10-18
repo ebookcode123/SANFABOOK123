@@ -1,0 +1,170 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="67-树的三种遍历ii">67. 树的三种遍历II</h1><h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：tree, stack
+                </li></ul>
+                <h2 id="视频讲解">视频讲解</h2><div class="gb-video" data-videoid="215862"><div class="flowplayer is-splash is-mouseout is-paused" data-analytics="UA-68088696-2" data-rtmp="rtmp://rtmp.flowplayer.org/cfx/st/" data-ratio="0.6250" data-embed="false" data-flowplayer-instance-id="15" style="background-image: url(&quot;//cdn-i2.tianmaying.com/public/img/videosplash.png&quot;);">
+
+
+                <div class="fp-ratio" style="padding-top: 56.25%;"></div><div class="fp-player"><div class="buttons">
+                <span class="active">1x</span>
+                <span>1.5x</span>
+                <span>2x</span>
+            </div><div class="endscreen text-center">
+
+
+                <div class="vip-bg" style="margin-top: 15%; padding-bottom: 20px; box-shadow: none; margin-right: 10px; margin-left: 10px;">
+                    <a href="/premiumMembership">
+                        <div class="text-center">
+                            <h1 class="vip-header" style="color:white; font-size:20px;"><strong>加入太阁VIP</strong></h1>
+                        </div>
+
+                        <div class="row wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="padding-top: 20px; color: rgb(51, 122, 183); visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <div style="display:inline-block; width:50px; height:50px;">
+                                    <img src="//cdn-i2.tianmaying.com/public/img/icons/vipLarge.png" style="width:35px;">
+                                </div>
+                                <p style="font-size:15px; font-weight:bold; padding-left:15px;">太阁程序员面试宝典（算法设计、系统设计、数据科学、职业发展、实战项目）</p>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-microphone"></span>
+                                <p style="font-size:15px; font-weight:bold;">VIP用户能够观看硅谷之路全部上百篇视频的完整版 VS 普通用户能够观看最近三天视频的完整版</p>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-center" style="padding:5px;">
+                                <span class="purple-discussion"></span>
+                                <p style="font-size:15px; font-weight:bold; padding-right:15px;">支持太阁实验室推出更多更好的内容</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <a class="fp-toggle">Play video again</a>
+            </div><div class="fp-ui" title="Hit ? for help">         <div class="fp-waiting"><em></em><em></em><em></em></div>         <a class="fp-fullscreen"></a>         <a class="fp-unload"></a>         <p class="fp-speed"></p>         <div class="fp-controls">            <a class="fp-play"></a>            <div class="fp-timeline">               <div class="fp-buffer"></div>               <div class="fp-progress animated" style="transition-duration: 0ms; width: 0%;"></div>            </div>            <div class="fp-timeline-tooltip fp-tooltip"></div>            <div class="fp-volume">               <a class="fp-mute"></a>               <div class="fp-volumeslider">                  <div class="fp-volumelevel"></div>               </div>            </div>         <a href="http://flowplayer.org" class="fp-brand">flowplayer</a></div>         <div class="fp-time">            <em class="fp-elapsed">00:00</em>            <em class="fp-remaining"></em>            <em class="fp-duration">00:00</em>         </div>         <div class="fp-message"><h2></h2><p></p></div></div><div class="fp-help">         <a class="fp-close"></a>         <div class="fp-help-section fp-help-basics">            <p><em>space</em>play / pause</p>            <p><em>q</em>unload | stop</p>            <p><em>f</em>fullscreen</p><p><em>shift</em> + <em>←</em><em>→</em>slower / faster</p>         </div>         <div class="fp-help-section">            <p><em>↑</em><em>↓</em>volume</p>            <p><em>m</em>mute</p>         </div>         <div class="fp-help-section">            <p><em>←</em><em>→</em>seek</p>            <p><em>&nbsp;. </em>seek to previous            </p><p><em>1</em><em>2</em>… <em>6</em> seek to 10%, 20% … 60% </p>         </div>   </div><div class="fp-context-menu"><ul><li class="copyright">© 2015</li><li><a href="http://flowplayer.org">About Flowplayer</a></li><li><a href="http://flowplayer.org/license">GPL based license</a></li></ul></div></div><a href="http://flowplayer.org" style="display: none;"></a></div></div>
+
+
+
+                <h2 id="stack">stack</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+    <span class="hljs-keyword">int</span> value;
+    Node left;
+    Node right;
+
+    Node(){
+        left = <span class="hljs-keyword">null</span>;
+        right = <span class="hljs-keyword">null</span>;
+        value = -<span class="hljs-number">1</span>;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pair</span></span>{
+    Node node;
+    <span class="hljs-keyword">int</span> type; <span class="hljs-comment">//0 first time, 1 print</span>
+    Pair(Node node, <span class="hljs-keyword">int</span> type){
+        <span class="hljs-keyword">this</span>.node = node;
+        <span class="hljs-keyword">this</span>.type = type;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Traverser</span></span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Order</span><span class="hljs-params">(Node root, <span class="hljs-keyword">int</span> order)</span></span>{ <span class="hljs-comment">//0 pre; 1 in; 2 post</span>
+
+        Stack&lt;Pair&gt; processing = <span class="hljs-keyword">new</span> Stack&lt;Pair&gt;();
+        processing.add(<span class="hljs-keyword">new</span> Pair(root, <span class="hljs-number">0</span>));
+
+        <span class="hljs-keyword">while</span>(processing.isEmpty()==<span class="hljs-keyword">false</span>){
+            Pair temp = processing.pop();
+            <span class="hljs-keyword">if</span>(temp.node == <span class="hljs-keyword">null</span>) <span class="hljs-keyword">continue</span>;
+
+            <span class="hljs-keyword">if</span>(temp.type==<span class="hljs-number">1</span>){
+                System.out.print(temp.node.value+<span class="hljs-string">" "</span>);
+                <span class="hljs-keyword">continue</span>;
+            }
+
+            <span class="hljs-keyword">switch</span> (order){
+                <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.right,<span class="hljs-number">0</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.left,<span class="hljs-number">0</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node,<span class="hljs-number">1</span>));
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.right,<span class="hljs-number">0</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node,<span class="hljs-number">1</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.left,<span class="hljs-number">0</span>));
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node,<span class="hljs-number">1</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.right,<span class="hljs-number">0</span>));
+                    processing.add(<span class="hljs-keyword">new</span> Pair(temp.node.left,<span class="hljs-number">0</span>));
+                    <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+
+        Traverser traverser = <span class="hljs-keyword">new</span> Traverser();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+
+            <span class="hljs-comment">//build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node();
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; ++i){
+                tree[i].value = in.nextInt();
+                <span class="hljs-keyword">int</span> leftId = in.nextInt();
+                <span class="hljs-keyword">if</span>(leftId!=-<span class="hljs-number">1</span>) tree[i].left = tree[leftId];
+                <span class="hljs-keyword">int</span> rightId = in.nextInt();
+                <span class="hljs-keyword">if</span>(rightId!=-<span class="hljs-number">1</span>) tree[i].right = tree[rightId];
+            }
+
+            traverser.Order(tree[<span class="hljs-number">0</span>],<span class="hljs-number">0</span>);
+            System.out.println();
+            traverser.Order(tree[<span class="hljs-number">0</span>],<span class="hljs-number">1</span>);
+            System.out.println();
+            traverser.Order(tree[<span class="hljs-number">0</span>],<span class="hljs-number">2</span>);
+            System.out.println();
+
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

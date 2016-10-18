@@ -1,0 +1,224 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="27-部分求和题解">27. 部分求和题解</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：2
+            </li>
+                <li>难度：1-5
+                </li>
+                <li>关键词：tree, segment tree, binary index tree
+                </li></ul>
+                <p>最基本是每次单独计算</p><p>再进一步是求一个子集合的结果</p><h2 id="线段树">线段树</h2><p>再进一步是线段树</p><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.util.Scanner;
+<span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">import</span> java.io.FileNotFoundException;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Segment</span></span>{
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+        <span class="hljs-keyword">int</span> sum;
+        <span class="hljs-keyword">int</span> left;
+        <span class="hljs-keyword">int</span> right;
+        Node leftNode;
+        Node rightNode;
+        Node(){
+            sum = <span class="hljs-number">0</span>;
+            leftNode = <span class="hljs-keyword">null</span>;
+            rightNode = <span class="hljs-keyword">null</span>;
+        }
+    }
+
+    Node root;
+
+    Segment(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right) {
+        root = build(nums, left, right);
+    }
+
+    <span class="hljs-function">Node <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span> </span>{
+        <span class="hljs-keyword">if</span>(left&gt;right) <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+        Node node = <span class="hljs-keyword">new</span> Node();
+        node.left = left;
+        node.right = right;
+
+        <span class="hljs-keyword">if</span>(left==right){
+            node.sum = nums[left];
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-keyword">int</span> mid = left+(right-left)/<span class="hljs-number">2</span>;
+            node.leftNode = build(nums, left, mid);
+            node.sum += node.leftNode.sum;
+            node.rightNode = build(nums, mid+<span class="hljs-number">1</span>,right);
+            node.sum += node.rightNode.sum;
+        }
+
+        <span class="hljs-keyword">return</span> node;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getSum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span></span>{
+        <span class="hljs-keyword">return</span> sum(root, left, right);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(Node node, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span></span>{
+        <span class="hljs-keyword">if</span>( node == <span class="hljs-keyword">null</span> || right &lt;node.left || left&gt;node.right) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">if</span>(left&lt;node.left) left = node.left;
+        <span class="hljs-keyword">if</span>(right&gt;node.right) right = node.right;
+
+        <span class="hljs-keyword">if</span>(left==node.left &amp;&amp; right == node.right) <span class="hljs-keyword">return</span> node.sum;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> sum(node.leftNode, left, right) + sum(node.rightNode, left, right);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pos, <span class="hljs-keyword">int</span> diff)</span></span>{
+        updateSum(root,pos,diff);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">updateSum</span><span class="hljs-params">(Node node, <span class="hljs-keyword">int</span> pos, <span class="hljs-keyword">int</span> diff)</span></span>{
+        <span class="hljs-keyword">if</span>(node==<span class="hljs-keyword">null</span> || pos&lt;node.left || pos&gt;node.right ) <span class="hljs-keyword">return</span>;
+        node.sum+=diff;
+        updateSum(node.leftNode, pos, diff);
+        updateSum(node.rightNode, pos, diff);
+    }
+
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SolutionSegment</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException </span>{
+
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) nums[i] = in.nextInt();
+            Segment tree = <span class="hljs-keyword">new</span> Segment(nums,<span class="hljs-number">0</span>,n-<span class="hljs-number">1</span>);
+
+            in.nextLine();
+            String op = in.nextLine();
+            <span class="hljs-keyword">while</span>( op.equals(<span class="hljs-string">"END"</span>) == <span class="hljs-keyword">false</span> ) {
+
+                <span class="hljs-keyword">if</span> (op.equals(<span class="hljs-string">"SUM"</span>)) {
+                    <span class="hljs-keyword">int</span> left = in.nextInt();
+                    <span class="hljs-keyword">int</span> right =in.nextInt();
+                    System.out.println(tree.getSum(left,right));
+
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">int</span> pos = in.nextInt();
+                    <span class="hljs-keyword">int</span> value = in.nextInt();
+                    tree.update(pos, value - nums[pos]);
+                }
+                in.nextLine();
+                op = in.nextLine();
+            }
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+
+</code></pre>
+                <h2 id="二叉检索树">二叉检索树</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.util.Scanner;
+<span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">import</span> java.io.FileNotFoundException;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BIT</span></span>{
+    <span class="hljs-keyword">int</span>[] bit;
+    <span class="hljs-keyword">int</span> left;
+    <span class="hljs-keyword">int</span> right;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span></span>{
+        bit = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[right+<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">this</span>.left=left;
+        <span class="hljs-keyword">this</span>.right=right;
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=right;++i) bit[i] = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=left;i&lt;=right;++i){
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=i; j&lt;=right; j+=j&amp;(-j))
+                bit[j]+=nums[i];
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getSum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span></span>{
+        <span class="hljs-keyword">return</span> sum(right)-sum(left-<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pos)</span></span>{
+        <span class="hljs-keyword">int</span> result = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=pos;j&gt;<span class="hljs-number">0</span>;j-=j&amp;(-j)) result += bit[j];
+        <span class="hljs-keyword">return</span> result;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pos, <span class="hljs-keyword">int</span> diff)</span></span>{
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=pos;j&lt;=right;j+=j&amp;(-j)) bit[j]+=diff;
+    }
+
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BITree</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException </span>{
+
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt();
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+            <span class="hljs-keyword">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n+<span class="hljs-number">1</span>];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;++i) nums[i] = in.nextInt();
+
+            BIT bit = <span class="hljs-keyword">new</span> BIT();
+            bit.build(nums, <span class="hljs-number">1</span>, n);
+
+            in.nextLine();
+            String op = in.nextLine();
+            <span class="hljs-keyword">while</span>( op.equals(<span class="hljs-string">"END"</span>) == <span class="hljs-keyword">false</span> ) {
+
+                <span class="hljs-keyword">if</span> (op.equals(<span class="hljs-string">"SUM"</span>)) {
+                    <span class="hljs-keyword">int</span> left = in.nextInt()+<span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">int</span> right =in.nextInt()+<span class="hljs-number">1</span>;
+                    System.out.println(bit.getSum(left,right));
+
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">int</span> pos = in.nextInt()+<span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">int</span> value = in.nextInt();
+                    bit.update(pos, value - nums[pos]);
+                }
+                in.nextLine();
+                op = in.nextLine();
+            }
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <p>最后是二叉检索树：二叉检索树的关键在于根据和来决定如何操作，走树的哪一侧。</p>
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

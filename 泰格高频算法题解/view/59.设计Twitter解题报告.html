@@ -1,0 +1,148 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="59-设计twitter解题报告">59. 设计Twitter解题报告</h1><h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：system design, feed
+                </li></ul>
+                <h2 id="直接解法">直接解法</h2><p>考虑了list的合并问题</p><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Twitter</span></span>{
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pair</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Pair</span>&gt;</span>{
+        <span class="hljs-keyword">int</span> pID;
+        ListIterator&lt;Integer&gt; itr;
+        Pair(<span class="hljs-keyword">int</span> pID, ListIterator&lt;Integer&gt; itr){
+            <span class="hljs-keyword">this</span>.pID = pID;
+            <span class="hljs-keyword">this</span>.itr = itr;
+        }
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Pair other)</span></span>{
+            <span class="hljs-keyword">return</span> other.pID-pID;
+        }
+    }
+
+    HashMap&lt;Integer, HashSet&lt;Integer&gt; &gt; relationship;
+    HashMap&lt;Integer, LinkedList&lt;Integer&gt; &gt; post;
+
+    Twitter(){
+        relationship = <span class="hljs-keyword">new</span> HashMap&lt;Integer, HashSet&lt;Integer&gt; &gt;();
+        post = <span class="hljs-keyword">new</span> HashMap&lt;Integer, LinkedList&lt;Integer&gt; &gt;();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">subscribe</span><span class="hljs-params">(<span class="hljs-keyword">int</span> uID, <span class="hljs-keyword">int</span> followID)</span></span>{
+        <span class="hljs-keyword">if</span>( uID == followID ) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span>( relationship.containsKey(uID)==<span class="hljs-keyword">false</span> ) relationship.put(uID, <span class="hljs-keyword">new</span> HashSet&lt;Integer&gt;());
+        relationship.get(uID).add(followID);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">unSubscribe</span><span class="hljs-params">(<span class="hljs-keyword">int</span> uID, <span class="hljs-keyword">int</span> followID)</span></span>{
+        <span class="hljs-keyword">if</span>( relationship.containsKey(uID)==<span class="hljs-keyword">false</span> ) <span class="hljs-keyword">return</span>;
+        relationship.get(uID).remove(followID);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">publish</span><span class="hljs-params">(<span class="hljs-keyword">int</span> uID, <span class="hljs-keyword">int</span> pID)</span></span>{
+        <span class="hljs-keyword">if</span>(post.containsKey(uID)==<span class="hljs-keyword">false</span>) post.put(uID, <span class="hljs-keyword">new</span> LinkedList&lt;Integer&gt;());
+        post.get(uID).addFirst(pID);
+    }
+
+    <span class="hljs-function">ArrayList&lt;Integer&gt; <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">int</span> uID,<span class="hljs-keyword">int</span> limit)</span></span>{
+        ArrayList&lt;Integer&gt; result = <span class="hljs-keyword">new</span> ArrayList&lt;Integer&gt;();
+        PriorityQueue&lt;Pair&gt; pq = <span class="hljs-keyword">new</span> PriorityQueue&lt;Pair&gt;();
+
+        <span class="hljs-keyword">if</span>(post.containsKey(uID)){
+            ListIterator&lt;Integer&gt; itr = post.get(uID).listIterator();
+            pq.add(<span class="hljs-keyword">new</span> Pair(itr.next(),itr));
+        }
+
+        <span class="hljs-keyword">if</span>( relationship.containsKey(uID) ) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> following : relationship.get(uID)) {
+                <span class="hljs-keyword">if</span> (post.containsKey(following)) {
+                    ListIterator&lt;Integer&gt; itr = post.get(following).listIterator();
+                    pq.add(<span class="hljs-keyword">new</span> Pair(itr.next(), itr));
+                }
+            }
+        }
+
+        <span class="hljs-keyword">while</span>(pq.isEmpty()==<span class="hljs-keyword">false</span> &amp;&amp; result.size()&lt;<span class="hljs-number">10</span>){
+            Pair temp = pq.poll();
+            result.add(temp.pID);
+            <span class="hljs-keyword">if</span>(temp.itr.hasNext()) {
+                temp.pID = temp.itr.next();
+                pq.add(temp);
+            }
+        }
+        <span class="hljs-keyword">return</span> result;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span></span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException </span>{
+
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+        Twitter twitter = <span class="hljs-keyword">new</span> Twitter();
+
+        <span class="hljs-keyword">int</span> uID = in.nextInt();
+
+        <span class="hljs-keyword">while</span>(uID!=-<span class="hljs-number">1</span>){
+            String op = in.next();
+            <span class="hljs-keyword">switch</span>(op){
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"Publish"</span>:
+                    twitter.publish(uID, in.nextInt());
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"Subscribe"</span>:
+                    twitter.subscribe(uID, in.nextInt());
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"Unsubscribe"</span>:
+                    twitter.unSubscribe(uID, in.nextInt());
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">"Get"</span>:
+                    twitter.get(uID, <span class="hljs-number">10</span>).forEach(pID-&gt;System.out.print(pID+<span class="hljs-string">" "</span>));
+                    System.out.println();
+                    <span class="hljs-keyword">break</span>;
+            }
+            uID = in.nextInt();
+        }
+        in.close();
+    }
+}
+</code></pre>
+                <h2 id="扩展问题">扩展问题</h2><ul><li><p>如果输入数据有不同的特点要如何设计？</p><ul><li>写多 vs 读多
+            </li>
+                <li>一个人可以关注的比较多 vs 一个人的关注者比较多
+                </li></ul>
+            </li>
+                <li><p>如果一个人unsubscribe一个未关注的用户会如何？</p></li>
+                <li>如果一个人订阅了没有发布任何post的人？
+                </li>
+                <li>如果一个人订阅了自己？
+                </li>
+                <li>如果一个人还没有relationship，则开始get？
+                </li></ul>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>

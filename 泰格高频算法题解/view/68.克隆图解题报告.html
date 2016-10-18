@@ -1,0 +1,124 @@
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="68-克隆图解题报告">68. 克隆图解题报告</h1><pre><code> ___       _   _____
+(  _`\  _ ( )_(_   _)_                         _
+| (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+|  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+| (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+(____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                       ( )_) |
+                        \___/'
+</code></pre>
+                <h2 id="题目分析">题目分析</h2><ul><li>频率：3
+            </li>
+                <li>难度：3
+                </li>
+                <li>关键词：graph, bfs, clone
+                </li></ul>
+                <h2 id="bfs解法">BFS解法</h2><pre><code class="lang-java">
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;
+    <span class="hljs-keyword">public</span> ArrayList&lt;Node&gt; neighbors;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span></span>{
+        <span class="hljs-keyword">this</span>.id = id;
+        neighbors = <span class="hljs-keyword">new</span> ArrayList&lt;Node&gt;();
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node <span class="hljs-title">clone</span><span class="hljs-params">()</span></span>{
+        HashMap&lt;Node, Node&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;Node, Node&gt;();
+        LinkedList&lt;Node&gt; processing = <span class="hljs-keyword">new</span> LinkedList&lt;Node&gt;();
+
+        map.put(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> Node(<span class="hljs-keyword">this</span>.id));
+        processing.add(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">while</span>(processing.isEmpty()==<span class="hljs-keyword">false</span>){
+            Node temp = processing.pop();
+            Node cloned = map.get(temp);
+
+            <span class="hljs-keyword">for</span>(Node node: temp.neighbors){
+                <span class="hljs-keyword">if</span>(map.containsKey(node)==<span class="hljs-keyword">false</span>){
+                    map.put(node, <span class="hljs-keyword">new</span> Node(node.id));
+                    processing.add(node);
+                }
+                cloned.neighbors.add(map.get(node));
+            }
+        }
+        <span class="hljs-keyword">return</span> map.get(<span class="hljs-keyword">this</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BFS</span><span class="hljs-params">()</span></span>{
+        HashSet&lt;Node&gt; visited = <span class="hljs-keyword">new</span> HashSet&lt;Node&gt;();
+
+        LinkedList&lt;Node&gt; processing = <span class="hljs-keyword">new</span> LinkedList&lt;Node&gt;();
+
+        visited.add(<span class="hljs-keyword">this</span>);
+        processing.add(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">while</span>(processing.isEmpty()==<span class="hljs-keyword">false</span>){
+            Node temp = processing.pop();
+
+            System.out.print(temp.id+<span class="hljs-string">" "</span>);
+
+            <span class="hljs-keyword">for</span>(Node node: temp.neighbors){
+                <span class="hljs-keyword">if</span>(visited.add(node)){
+                    processing.add(node);
+                }
+            }
+        }
+        System.out.println();
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> FileNotFoundException</span>{
+        Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+        <span class="hljs-keyword">int</span> n = in.nextInt(); <span class="hljs-comment">// number of node</span>
+
+        <span class="hljs-keyword">while</span>(n!=-<span class="hljs-number">1</span>){
+
+            <span class="hljs-comment">//build tree</span>
+            Node[] tree = <span class="hljs-keyword">new</span> Node[n];
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i) tree[i] = <span class="hljs-keyword">new</span> Node(i);
+
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;++i){
+                <span class="hljs-keyword">int</span> m = in.nextInt();
+                <span class="hljs-keyword">while</span>(m--!=<span class="hljs-number">0</span>){
+                    tree[i].neighbors.add(tree[in.nextInt()]);
+                }
+            }
+            tree[<span class="hljs-number">0</span>].clone().BFS();
+            n = in.nextInt();
+        }
+        in.close();
+    }
+}</code></pre>
+
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span>
+                    results matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list">
+
+                </ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class="search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</div>
