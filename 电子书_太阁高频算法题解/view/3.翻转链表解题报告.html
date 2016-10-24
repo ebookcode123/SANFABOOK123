@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="page-inner">
+    <div id="book-search-results">
+        <div class="search-noresults">
+            <section class="normal markdown-section">
+                <h1 id="3-翻转链表题解">
+                    3. 翻转链表题解
+                </h1>
+                        <pre data-gclp-id="0" data-initialized="true">
+                        <code> ___       _   _____
+                            (  _`\  _ ( )_(_   _)_                         _
+                            | (_) )(_)| ,_) | | (_)   __     __   _ __    (_)   _
+                            |  _ &lt;'| || |   | | | | /'_ `\ /'__`\( '__)   | | /'_`\
+                            | (_) )| || |_  | | | |( (_) |(  ___/| |    _ | |( (_) )
+                            (____/'(_)`\__) (_) (_)`\__  |`\____)(_)   (_)(_)`\___/'
+                            ( )_) |
+                            \___/'
+                        </code></pre>
+                <h2 id="题目分析">
+                    题目分析
+                </h2>
+                <ul>
+                    <li>频率：4
+                    </li>
+                    <li>难度：2-3
+                    </li>
+                    <li>关键词：recursion, iteration, pointer, list
+                    </li>
+                </ul>
+                <h2 id="视频讲解">
+                    视频讲解
+                </h2>
+
+                <div>
+                        <img src="./Image/BitTiger1.png" >
+                </div>
+                <h2 id="iteration">
+                    Iteration
+                </h2>
+                <p>
+                    从第一个节点开始，一个一个翻转
+                </p>
+                        <pre data-gclp-id="1" data-initialized="true">
+                        <code class="lang-java">
+                            <span class="hljs-keyword">import</span> java.io.*;
+                            <span class="hljs-keyword">import</span> java.util.*;
+
+
+                <span class="hljs-class"><span class=
+                                                       "hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+                            <span class="hljs-keyword">int</span> value;
+                            Node next;
+                            Node(){
+                            next = <span class="hljs-keyword">null</span>;
+                            }
+                            }
+
+                <span class="hljs-class"><span class=
+                                                       "hljs-keyword">class</span> <span class="hljs-title">Iteration</span></span>{
+                <span class="hljs-function"><span class=
+                                                          "hljs-keyword">public</span> Node <span class=
+                                                                                                          "hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+                            Node pre = <span class="hljs-keyword">null</span>;
+                            Node current = head;
+                            Node next = <span class="hljs-keyword">null</span>;
+
+                <span class=
+                              "hljs-keyword">while</span>( current != <span class="hljs-keyword">null</span> ){
+                            next =current.next;
+                            current.next = pre;
+                            pre = current;
+                            current = next;
+                            }
+
+                            <span class="hljs-keyword">return</span> pre;
+                            }
+
+                <span class="hljs-function"><span class=
+                                                          "hljs-keyword">public</span> <span class=
+                                                                                                     "hljs-keyword">void</span> <span class="hljs-title">display</span><span class=
+                                                                                                                                                                                     "hljs-params">(Node head)</span></span>{
+                            <span class="hljs-keyword">while</span>(head!=<span class=
+                                                                                        "hljs-keyword">null</span>){
+                            System.out.print(head.value+<span class=
+                                                                      "hljs-string">" "</span>);
+                            head = head.next;
+                            }
+                            System.out.println();
+                            }
+
+                            }
+
+                            <span class="hljs-keyword">public</span> <span class=
+                                                                                   "hljs-class"><span class="hljs-keyword">class</span> <span class=
+                                                                                                                                                      "hljs-title">Solution</span> </span>{
+                <span class="hljs-function"><span class=
+                                                          "hljs-keyword">public</span> <span class=
+                                                                                                     "hljs-keyword">static</span> <span class=
+                                                                                                                                                "hljs-keyword">void</span> <span class="hljs-title">main</span><span class=
+                                                                                                                                                                                                                             "hljs-params">(String[] args)</span> <span class=
+                                                                                                                                                                                                                                                                                "hljs-keyword">throws</span> FileNotFoundException</span>{
+                            Scanner in = <span class=
+                                                       "hljs-keyword">new</span> Scanner(<span class=
+                                                                                                       "hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                            <span class="hljs-keyword">int</span> n = in.nextInt();
+                            <span class="hljs-keyword">while</span>(n!=-<span class=
+                                                                                      "hljs-number">1</span>){
+                            Node head = <span class="hljs-keyword">null</span>;
+                            Node pre = <span class="hljs-keyword">null</span>;
+                            <span class="hljs-keyword">while</span>(n--!=<span class=
+                                                                                       "hljs-number">0</span>){
+                            Node temp = <span class="hljs-keyword">new</span> Node();
+                            temp.value = in.nextInt();
+
+                            <span class="hljs-keyword">if</span>( head == <span class=
+                                                                                        "hljs-keyword">null</span>) head = temp;
+                            <span class="hljs-keyword">else</span> pre.next = temp;
+                            pre = temp;
+                            }
+
+                            Iteration itr = <span class=
+                                                          "hljs-keyword">new</span> Iteration();
+                            itr.display(head);
+
+                            head = itr.reverse(head);
+                            itr.display(head);
+
+                            n = in.nextInt();
+                            }
+
+                            in.close();
+                            }
+                            }
+                        </code></pre>
+                <h2 id="recursion">
+                    Recursion
+                </h2>
+                <p>
+                    将翻转转换成子问题：
+                </p>
+                <ul>
+                    <li>翻转该节点之后的所有节点
+                    </li>
+                    <li>将该节点拼接到翻转后的节点上
+                    </li>
+                </ul>
+                        <pre data-gclp-id="2" data-initialized="true">
+                        <code class="lang-java">
+                            <span class="hljs-keyword">import</span> java.io.*;
+                            <span class="hljs-keyword">import</span> java.util.*;
+
+    <span class="hljs-class"><span class=
+                                           "hljs-keyword">class</span> <span class="hljs-title">Node</span></span>{
+                            <span class="hljs-keyword">int</span> value;
+                            Node next;
+                            Node(){
+                            next = <span class="hljs-keyword">null</span>;
+                            }
+
+    <span class="hljs-function"><span class=
+                                              "hljs-keyword">public</span> <span class=
+                                                                                         "hljs-keyword">void</span> <span class="hljs-title">display</span><span class=
+                                                                                                                                                                         "hljs-params">()</span></span>{
+                            Node head = <span class="hljs-keyword">this</span>;
+                            <span class="hljs-keyword">while</span>(head!=<span class=
+                                                                                        "hljs-keyword">null</span>){
+                            System.out.print(head.value+<span class="hljs-string">" "</span>);
+                            head = head.next;
+                            }
+                            System.out.println();
+                            }
+                            }
+
+    <span class="hljs-class"><span class=
+                                           "hljs-keyword">class</span> <span class="hljs-title">Recursion</span></span>{
+    <span class="hljs-function"><span class=
+                                              "hljs-keyword">public</span> Node <span class=
+                                                                                              "hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+                            <span class="hljs-keyword">if</span>(head == <span class=
+                                                                                       "hljs-keyword">null</span> || head.next==<span class=
+                                                                                                                                              "hljs-keyword">null</span>) <span class="hljs-keyword">return</span> head;
+
+                            Node newHead = reverse(head.next);
+                            head.next.next = head;
+                            head.next = <span class="hljs-keyword">null</span>;
+
+                            <span class="hljs-keyword">return</span> newHead;
+                            }
+                            }
+
+    <span class="hljs-class"><span class=
+                                           "hljs-keyword">class</span> <span class="hljs-title">Iteration</span></span>{
+    <span class="hljs-function"><span class=
+                                              "hljs-keyword">public</span> Node <span class=
+                                                                                              "hljs-title">reverse</span><span class="hljs-params">(Node head)</span></span>{
+                            Node pre = <span class="hljs-keyword">null</span>;
+                            Node current = head;
+                            Node next = <span class="hljs-keyword">null</span>;
+
+                            <span class="hljs-keyword">while</span>( current != <span class=
+                                                                                              "hljs-keyword">null</span> ){
+                            next =current.next;
+                            current.next = pre;
+                            pre = current;
+                            current = next;
+                            }
+
+                            <span class="hljs-keyword">return</span> pre;
+                            }
+
+                            }
+
+                            <span class="hljs-keyword">public</span> <span class=
+                                                                                   "hljs-class"><span class="hljs-keyword">class</span> <span class=
+                                                                                                                                                      "hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class=
+                                              "hljs-keyword">public</span> <span class=
+                                                                                         "hljs-keyword">static</span> <span class=
+                                                                                                                                    "hljs-keyword">void</span> <span class="hljs-title">main</span><span class=
+                                                                                                                                                                                                                 "hljs-params">(String[] args)</span> <span class=
+                                                                                                                                                                                                                                                                    "hljs-keyword">throws</span> FileNotFoundException</span>{
+                            Scanner in = <span class="hljs-keyword">new</span> Scanner(<span class=
+                                                                                                     "hljs-keyword">new</span> File(<span class="hljs-string">"input.txt"</span>));
+
+                            <span class="hljs-keyword">int</span> n = in.nextInt();
+                            <span class="hljs-keyword">while</span>(n!=-<span class=
+                                                                                      "hljs-number">1</span>){
+                            Node head = <span class="hljs-keyword">null</span>;
+                            Node pre = <span class="hljs-keyword">null</span>;
+                            <span class="hljs-keyword">while</span>(n--!=<span class=
+                                                                                       "hljs-number">0</span>){
+                            Node temp = <span class="hljs-keyword">new</span> Node();
+                            temp.value = in.nextInt();
+
+                            <span class="hljs-keyword">if</span>( head == <span class=
+                                                                                        "hljs-keyword">null</span>) head = temp;
+                            <span class="hljs-keyword">else</span> pre.next = temp;
+                            pre = temp;
+                            }
+
+    <span class=
+                  "hljs-comment">//            Iteration itr = new Iteration();</span>
+                            head.display();
+
+                            Recursion rec = <span class="hljs-keyword">new</span> Recursion();
+
+                            head = rec.reverse(head);
+                            head.display();
+
+                            n = in.nextInt();
+                            }
+
+                            in.close();
+                            }
+                            }
+                        </code></pre>
+                <h2 id="扩展思考">
+                    扩展思考
+                </h2>
+                <p>
+                    Corner case
+                </p>
+                <ul>
+                    <li>n==0
+                    </li>
+                </ul>
+                <p>
+                    Followup question
+                </p>
+                <ul>
+                    <li>反转有向图
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <div class="search-results">
+            <div class="has-results">
+                <h1 class="search-results-title">
+                    <span class="search-results-count"></span> results
+                    matching "<span class="search-query"></span>"
+                </h1>
+                <ul class="search-results-list"></ul>
+            </div>
+            <div class="no-results">
+                <h1 class="search-results-title">
+                    No results matching "<span class=
+                                                       "search-query"></span>"
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
